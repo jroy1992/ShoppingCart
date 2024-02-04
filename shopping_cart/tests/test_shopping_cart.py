@@ -1,5 +1,6 @@
+#!/usr/bin/env python
 import unittest
-import shopping_cart
+from src import shopping_cart
 
 
 def _common_setup(instance: unittest.TestCase):
