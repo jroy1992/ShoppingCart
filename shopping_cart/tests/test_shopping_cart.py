@@ -124,8 +124,8 @@ class TestShoppingCart(unittest.TestCase):
         self.assertIsNone(cart.get_item('Onion'))
 
     def test_delete_nonexistent_item(self):
+        cart = shopping_cart.ShoppingCart()
         with self.assertRaises(KeyError):
-            cart = shopping_cart.ShoppingCart()
             cart.delete_item('Onion')
 
 
