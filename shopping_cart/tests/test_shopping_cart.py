@@ -111,7 +111,7 @@ class TestShoppingCart(unittest.TestCase):
         cart = shopping_cart.ShoppingCart()
         cart.insert_item(name=self.item_name, price_per_unit=self.item_price, quantity=self.item_quantity)
 
-        with self.assertRaises(Exception):
+        with self.assertRaises(ValueError):
             cart.delete_item(self.item_name, 100)
 
     def test_total_price(self):
@@ -119,21 +119,14 @@ class TestShoppingCart(unittest.TestCase):
         for (name, price, quantity) in self.items_list:
             cart.insert_item(name=name, price_per_unit=price, quantity=quantity)
 
-    @unittest.expectedFailure
     def test_get_nonexistent_item(self):
         cart = shopping_cart.ShoppingCart()
-        cart.get_item('Onion')
+        self.assertIsNone(cart.get_item('Onion'))
 
-    @unittest.expectedFailure
     def test_delete_nonexistent_item(self):
-        cart = shopping_cart.ShoppingCart()
-        cart.delete_item('Onion')
-
-    @unittest.expectedFailure
-    def test_delete_exceeded_item_quantity(self):
-        cart = shopping_cart.ShoppingCart()
-        cart.insert_item(name='Onion', price_per_unit=1.35, quantity=10)
-        cart.delete_item(name='Onion', quantity=20)
+        with self.assertRaises(KeyError):
+            cart = shopping_cart.ShoppingCart()
+            cart.delete_item('Onion')
 
 
 if __name__ == '__main__':
