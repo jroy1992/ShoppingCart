@@ -52,17 +52,11 @@ class ShoppingCart(object):
 
     def get_item(self, name: str) -> Item:
         """
-        Returns the item object if the item is in cart. Raises exception if item not present.
+        Returns the item object if the item is in cart. Returns None if item not present.
         :param name: Name of the item to get from cart
         :return: Item object of the item
         """
-        item = self.total_items.get(name, None)
-        if not item:
-            logging.info(f'{name} not in cart')
-            raise Exception(f'{name} not in cart')
-
-        logging.info(f'{item.name} -> Quantity:{item.quantity}, Price per {item.name}: {item.price}')
-        return item
+        return self.total_items.get(name, None)
 
     def get_item_count(self, name: str) -> int:
         """
@@ -110,8 +104,6 @@ class ShoppingCart(object):
             elif item.quantity == quantity:
                 self.total_items.pop(name)
             else:
-                logging.info(f'Only {item.quantity} quantities of {name} are in cart')
-                raise Exception(f'Only {item.quantity} quantities of {name} are in cart')
+                raise ValueError(f'Only {item.quantity} quantities of {name} are in cart. Attempted deleting {quantity}')
         else:
-            logging.info(f'Item {name} not added to cart. Delete aborted!')
-            raise Exception(f'Item {name} not added to cart. Delete aborted!')
+            raise KeyError(f'Item {name} not added to cart. Delete aborted!')
