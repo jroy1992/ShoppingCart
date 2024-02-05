@@ -88,6 +88,7 @@ class ShoppingCart(object):
             self.total_items[name].update_quantity(quantity=quantity, add=True)
         else:
             self.total_items[name] = Item(name=name, quantity=quantity, price=price_per_unit)
+        logging.info(f'{name} inserted into cart.')
     
     def delete_item(self, name: str, quantity: int=1) -> None:
         """
@@ -101,8 +102,10 @@ class ShoppingCart(object):
             item = self.total_items[name]
             if item.quantity > quantity:
                 item.update_quantity(quantity=quantity, remove=True)
+                logging.info(f'{quantity} units of {name} deleted from cart.')
             elif item.quantity == quantity:
                 self.total_items.pop(name)
+                logging.info(f'{name} deleted from cart.')
             else:
                 raise ValueError(f'Only {item.quantity} quantities of {name} are in cart. Attempted deleting {quantity}')
         else:
